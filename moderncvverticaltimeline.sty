@@ -46,7 +46,8 @@
     \ifnum\thetl@nodeidx>1
       \pgfpointdiff{\pgfpointanchor{\@tl@prev}{center}}{\pgfpointanchor{\@tl@this}{center}}
       \ifnum\pgf@y>0
-        \draw[tl_link] (\@tl@this) -- ([yshift=-1em] \@tl@this |- current page.north);
+        % TODO make the margin customizable
+        \draw[tl_link] (\@tl@this) -- ([yshift=-8em] \@tl@this |- current page.north);
       \else
         \draw[tl_link] (\@tl@this) -- (\@tl@prev);
       \fi
@@ -62,7 +63,8 @@
     \ifnum\thetl@nodeidx>1
       \pgfpointdiff{\pgfpointanchor{\@tl@prev}{center}}{\pgfpointanchor{\@tl@this}{center}}
       \ifnum\pgf@y>0
-        \draw[tl_link] (\@tl@prev) -- ([yshift=1em] \@tl@prev |- current page.south);
+        % TODO make the margin customizable
+        \draw[tl_link] (\@tl@prev) -- ([yshift=12em] \@tl@prev |- current page.south);
       \fi
     \fi
   }

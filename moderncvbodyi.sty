@@ -16,9 +16,10 @@
 %-------------------------------------------------------------------------------
 %                required packages
 %-------------------------------------------------------------------------------
+\RequirePackage{moderncvverticaltimeline}
 % provides the commands for the skillmatrix as well as the command
 % \recompute@cvskillmatrix@lengths
-\RequirePackage[moderncvbodyi]{moderncvskillmatrix}
+\RequirePackage[moderncvbodyi,circle]{moderncvskillmatrix}
 
 %-------------------------------------------------------------------------------
 %                overall body definition
@@ -74,7 +75,10 @@
 \@initializelength{\baseletterheight}
 \settoheight{\baseletterheight}{\sectionstyle{o}}
 \setlength{\baseletterheight}{\baseletterheight-0.95ex}
+% The optional argument can be used to place a small icon near the section name.
+% E.g. `\section[\faBookmark]{Education}`
 \RenewDocumentCommand{\section}{sm}{%
+  \tl@resetchain%
   \par\addvspace{2.5ex}%
   \phantomsection{}% reset the anchor for hyperrefs
   \addcontentsline{toc}{section}{#2}%
@@ -125,15 +129,21 @@
     {}%
     {\listitemsymbol\hspace{\listitemsymbolspace}\begin{minipage}[t]{\listdoubleitemcolumnwidth-\listitemsymbolspace}#3\end{minipage}}}}
 
+% TODO make timeline optional
+% TODO fix text outside left margin now that the timeline takes up space
+\def\varsectionname{}%
 \renewcommand*{\cventry}[7][.25em]{%
-  \cvitem[#1]{#2}{%
+  \cvitem[#1]{%
+    % if this is a new employeer then starta new timeline
+    \ifthenelse{\equal{#4}{\varsectionname}}{}{\tl@resetchain}\tl@milestone{#2}}{%
     {\bfseries#3}%
     \ifthenelse{\equal{#4}{}}{}{, {\slshape#4}}%
     \ifthenelse{\equal{#5}{}}{}{, #5}%
     \ifthenelse{\equal{#6}{}}{}{, #6}%
     \strut%
     \ifx&#7&%
-    \else{\newline{}\begin{minipage}[t]{\linewidth}\small#7\end{minipage}}\fi}}
+    \else{\newline{}\begin{minipage}[t]{\linewidth}\small#7\end{minipage}}\fi}%
+  \def\varsectionname{#4}}
 
 \@initializebox{\cvitemwithcommentbox}
 \@initializelength{\cvitemwithcommentskilllength}
